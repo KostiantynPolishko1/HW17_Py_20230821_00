@@ -4,16 +4,42 @@ from win_calc_function import *
 
 
 def window_calculator(data: dict) -> None:
+    def win_h_info(value: int) -> None:
+        txt, color = '', ''
+        label_h_info.grid(row=1, column=3)
+
+        if value == 0:
+            txt, color = 'not correct', '#ff0000'
+            label_h_info.grid(row=1, column=4)
+
+        label_h_error['text'] = txt
+        label_h_error['foreground'] = color
+
+    def win_w_info(value: int) -> None:
+        txt, color = '', ''
+        label_w_info.grid(row=2, column=3)
+
+        if value == 0:
+            txt, color = 'not correct', '#ff0000'
+            label_w_info.grid(row=2, column=4)
+
+        label_w_error['text'] = txt
+        label_w_error['foreground'] = color
 
     def cost():
         price_profile = data['profile_price']['Steko']  # nominal price depend of profile
+        cost_str = '0'
 
-        win_height = check_win_min_max(check_val_int(entry_h.get()), data['win_size']['h_min'], data['win_size']['h_max'])
-        win_width = check_win_min_max(check_val_int(entry_w.get()), data['win_size']['w_min'], data['win_size']['w_max'])
-        # print(win_height)
-        # print(win_width)
+        value_h = check_val_int(entry_h.get())
+        win_h_info(value_h)
+        value_w = check_val_int(entry_w.get())
+        win_w_info(value_w)
 
-        cost_str = ((win_height * win_width) * 10**-6) * price_profile
+        if not value_h == 0 and not value_w == 0:
+            win_height = check_win_min_max(value_h, data['win_size']['h_min'], data['win_size']['h_max'])
+            win_width = check_win_min_max(value_w, data['win_size']['w_min'], data['win_size']['w_max'])
+
+            cost_str = ((win_height * win_width) * 10**-6) * price_profile
         label_cost['text'] = str(int(cost_str))
 
     print('\twindow_calculator')
@@ -23,13 +49,28 @@ def window_calculator(data: dict) -> None:
     window.geometry('950x650')
 
     label_s = ttk.Label(text='size h x w')
+
     label_h = ttk.Label(text='height mm')
+    label_h_info = ttk.Label(text='ref: 1100...1800 mm', foreground='#18c73e')
+    label_h_error = ttk.Label(text='', foreground='')
+
     label_w = ttk.Label(text='width mm')
+    label_w_info = ttk.Label(text='ref: 950...1700 mm', foreground='#18c73e')
+    label_w_error = ttk.Label(text='', foreground='')
+
     label_price = ttk.Label(text='price uah')
-    label_cost = ttk.Label(text='0.0')
+    label_cost = ttk.Label(text='0')
+
     label_s.grid(row=0, column=0)
+
     label_h.grid(row=1, column=1)
+    label_h_info.grid(row=1, column=3)
+    label_h_error.grid(row=1, column=3)
+
     label_w.grid(row=2, column=1)
+    label_w_info.grid(row=2, column=3)
+    label_w_error.grid(row=2, column=3)
+
     label_price.grid(row=3, column=1)
     label_cost.grid(row=3, column=2)
 
@@ -39,6 +80,6 @@ def window_calculator(data: dict) -> None:
     entry_w.grid(row=2, column=2)
 
     btn_cost = ttk.Button(text='calculate cost', command=cost)
-    btn_cost.grid(row=3, column=4)
+    btn_cost.grid(row=3, column=3)
 
     window.mainloop()
