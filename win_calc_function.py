@@ -1,4 +1,9 @@
-def check_val_int(txt: str) -> int:
+class NoneValue(Exception):
+    """value is empty"""
+    pass
+
+
+def check_val_int(txt: str) -> tuple:
 
     if txt.find('.'):
         txt = txt.split(sep='.', maxsplit=-1)
@@ -6,9 +11,13 @@ def check_val_int(txt: str) -> int:
         txt = txt[0].split(sep=',', maxsplit=-1)
 
     try:
-        return abs(int(txt[0]))
+        if txt[0] == '':
+            raise NoneValue('value is empty')
+        return abs(int(txt[0])), True
+    except NoneValue:
+        return 0, True
     except ValueError:
-        return 0
+        return 0, False
 
 
 def check_win_min_max(value: int, _min: int, _max: int) -> int:
