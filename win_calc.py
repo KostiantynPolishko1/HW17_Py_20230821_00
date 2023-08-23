@@ -1,12 +1,19 @@
 from tkinter import *
 from tkinter import ttk
+from win_calc_function import *
 
 
-def win_calc() -> None:
+def window_calculator(data: dict) -> None:
 
     def cost():
-        price_profile = 1000  # nominal price depend of profile
-        cost_str = ((int(entry_h.get()) * int(entry_w.get()))*(10**-6)) * price_profile
+        price_profile = data['profile_price']['Steko']  # nominal price depend of profile
+
+        win_height = check_win_min_max(check_val_int(entry_h.get()), data['win_size']['h_min'], data['win_size']['h_max'])
+        win_width = check_win_min_max(check_val_int(entry_w.get()), data['win_size']['w_min'], data['win_size']['w_max'])
+        # print(win_height)
+        # print(win_width)
+
+        cost_str = ((win_height * win_width) * 10**-6) * price_profile
         label_cost['text'] = str(int(cost_str))
 
     print('\twindow_calculator')
