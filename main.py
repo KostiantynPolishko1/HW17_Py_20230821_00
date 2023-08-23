@@ -1,4 +1,7 @@
-from tkinter import *
+import win_calc
 
 if __name__ == '__main__':
-    print('START of PROGRAM')
+    print('\tSTART of PROGRAM')
+    win_calc.win_calc()
+else:
+    print('\tEND of PROGRAM\nOpen file \'main.py\'')
