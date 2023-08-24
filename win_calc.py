@@ -1,9 +1,11 @@
 from tkinter import *
 from tkinter import ttk
 from win_calc_function import *
+from window_data import *
 
 
-def window_calculator(data: dict) -> None:
+def window_calculator() -> None:
+
     def win_h_info(value: int, logic: bool) -> None:
 
         label_h_info.grid(row=1, column=3)
@@ -43,7 +45,7 @@ def window_calculator(data: dict) -> None:
         label_w_error['foreground'] = color
 
     def cost():
-        price_profile = data['profile_price']['Steko']  # nominal price depend of profile
+        profile_price = combobox_profile.get()
         cost_str = '0'
 
         value_h, logic_h = check_val_int(entry_h.get())
@@ -56,7 +58,8 @@ def window_calculator(data: dict) -> None:
             # win_width = check_win_min_max(value_w, data['win_size']['w_min'], data['win_size']['w_max'])
             if data['win_size']['h_min'] <= value_h <= data['win_size']['h_max'] and data['win_size']['w_min'] <= \
                     value_w <= data['win_size']['w_max']:
-                cost_str = ((int(value_h) * int(value_w)) * 10**-6) * price_profile
+                if check_combobox(profile_price):
+                    cost_str = ((int(value_h) * int(value_w)) * 10**-6) * data[arr_key[1]][profile_price]
 
         label_cost['text'] = str(int(cost_str))
 
@@ -71,6 +74,7 @@ def window_calculator(data: dict) -> None:
         label_w_error['text'] = ''
         label_w_error['foreground'] = ''
         label_w_info.grid(row=2, column=3)
+        label_cost['text'] = ''
 
     print('\twindow_calculator')
 
@@ -89,7 +93,7 @@ def window_calculator(data: dict) -> None:
     label_w_error = ttk.Label(text='', foreground='')
 
     label_price = ttk.Label(text='price uah')
-    label_cost = ttk.Label(text='0')
+    label_cost = ttk.Label(text='')
 
     label_s.grid(row=0, column=0)
 
@@ -112,6 +116,13 @@ def window_calculator(data: dict) -> None:
     btn_cost = ttk.Button(text='calculate cost', command=cost)
     btn_clear = ttk.Button(text='clear', command=clear_data)
     btn_cost.grid(row=3, column=3)
-    btn_clear.grid(row=4, column=3)
+    btn_clear.grid(row=3, column=4)
+
+    profile_var = StringVar(value=arr_profile[0])
+    label_profile = ttk.Label(text='profile')
+    label_profile.grid(row=1, column=5)
+    arr_profile2 = arr_profile[1:len(arr_profile)]
+    combobox_profile = ttk.Combobox(textvariable=profile_var, values=arr_profile2, state='readonly')
+    combobox_profile.grid(row=1, column=5)
 
     window.mainloop()

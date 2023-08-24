@@ -1,8 +1,7 @@
 import win_calc
-from window_data import *
 
 if __name__ == '__main__':
     print('\tSTART of PROGRAM')
-    win_calc.window_calculator(window_data)
+    win_calc.window_calculator()
 else:
     print('\tEND of PROGRAM\nopen in file \'main.py\'')

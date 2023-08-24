@@ -1,3 +1,6 @@
+from window_data import *
+
+
 class NoneValue(Exception):
     """value is empty"""
     pass
@@ -26,3 +29,10 @@ def check_win_min_max(value: int, _min: int, _max: int) -> int:
         return value
     else:
         return _min if value < _min else _max
+
+
+def check_combobox(key: str) -> bool:
+    if key not in data:
+        return True
+    else:
+        return False
