@@ -31,8 +31,8 @@ def check_win_min_max(value: int, _min: int, _max: int) -> int:
         return _min if value < _min else _max
 
 
-def check_combobox(key: str) -> bool:
-    if key not in data:
-        return True
+def check_combobox(key_main: str, key_sub: str) -> int:
+    if key_sub in data:
+        return 0
     else:
-        return False
+        return data[key_main][key_sub]
